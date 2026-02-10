@@ -1,1 +1,0 @@
-# ERP Frontend - React + Tailwind
