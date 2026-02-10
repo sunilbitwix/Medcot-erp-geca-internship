@@ -1,0 +1,70 @@
+name: Monorepo Node CI
+
+on:
+  pull_request:
+    branches:
+      - release
+      - main
+  push:
+    branches:
+      - release
+
+jobs:
+  backend:
+    name: Backend CI
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint backend
+        run: npm run lint --if-present
+
+      - name: Test backend
+        run: npm test --if-present
+
+      - name: Build backend
+        run: npm run build --if-present
+
+  frontend:
+    name: Frontend CI
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint frontend
+        run: npm run lint --if-present
+
+      - name: Build frontend
+        run: npm run build
