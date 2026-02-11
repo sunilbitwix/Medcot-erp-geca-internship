@@ -55,6 +55,7 @@ export const updateSupplier = async (req, res, next) => {
     res.status(200).json({
       success: true,
       message: 'Supplier updated successfully',
+        
     });
   } catch (error) {
     next(error);
@@ -75,4 +76,23 @@ export const deleteSupplier = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+};
+
+export const reactivateSupplier = async (req, res, next) => {
+  try {
+    await supplierService.reactivateSupplier(
+      req.params.code,
+      req.body.updated_by
+    );          
+
+    res.status(200).json({
+      success: true,
+      message: 'Supplier reactivated successfully',
+    });
+  }
+    catch (error) {
+
+    next(error);
+  }
+
 };
