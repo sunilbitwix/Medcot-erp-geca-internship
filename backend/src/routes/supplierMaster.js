@@ -5,11 +5,8 @@ import {
   getSupplierByCode,
   updateSupplier,
   deleteSupplier,
-  activateSupplier,
-  deactivateSupplier,
-  searchSuppliers,
-  getSupplierSummary,
-  getSupplierUsage,
+  reactivateSupplier,
+  
 } from '../controllers/supplierMaster.js';
 
 const supplierRouter = express.Router();
@@ -24,16 +21,8 @@ supplierRouter.get('/', getSuppliers);
 supplierRouter.get('/:code', getSupplierByCode); 
 supplierRouter.put('/:code', updateSupplier);
 supplierRouter.delete('/:code', deleteSupplier);
+supplierRouter.patch('/:code/activate', reactivateSupplier);
 
-// -------- Status Management --------
-supplierRouter.patch('/:code/activate', activateSupplier);
-supplierRouter.patch('/:code/deactivate', deactivateSupplier);
 
-// -------- Search & Validation --------
-supplierRouter.get('/search/?name', searchSuppliers);
-
-// -------- Supplier Insights (ERP level) --------
-supplierRouter.get('/:code/summary', getSupplierSummary); 
-supplierRouter.get('/:code/usage', getSupplierUsage);
 
 export default supplierRouter;

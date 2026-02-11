@@ -22,16 +22,16 @@ export const createSupplier = async (data) => {
 
   await pool.execute(sql, [
     data.supplier_code,
-    data.supplier_name,
-    data.poc_name,
-    data.gst_number,
-    data.phone,
-    data.email,
-    data.address,
-    data.payment_terms,
-    data.lead_time_days,
+    data.supplier_name,   
+    data.poc_name || null,
+    data.gst_number || null,
+    data.phone || null,
+    data.email || null,
+    data.address || null, 
+    data.payment_terms || null,
+    data.lead_time_days || null,
     data.is_active ?? true,
-    data.extra_details,
+    data.extra_details || null,
     data.created_by,
   ]);
 
@@ -119,5 +119,22 @@ export const deactivateSupplier = async (supplier_code, updated_by) => {
 
   const [result] = await pool.execute(sql, [updated_by, supplier_code]);
 
+  return result.affectedRows;
+};
+
+/**
+ * Reactivate Supplier
+ */
+export const reactivateSupplier = async (supplier_code, updated_by) => {
+  const sql = `
+    UPDATE supplier_master
+    SET
+      is_active = TRUE,
+      updated_by = ?,
+      updated_at = CURRENT_TIMESTAMP
+    WHERE supplier_code = ?
+  `;
+
+  const [result] = await pool.execute(sql, [updated_by, supplier_code]);
   return result.affectedRows;
 };
