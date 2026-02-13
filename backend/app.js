@@ -1,3 +1,4 @@
+import inventoryRoutes from './src/routes/inventory.js';
 import express from 'express';
 import dotenv from 'dotenv';
 import bodyparser from 'body-parser';
@@ -14,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 // -------- Routes --------
 app.use('/api/v1/pos', poRouter);
 app.use('/api/v1/suppliers', supplierRouter);
-
+app.use('/api/inventory', inventoryRoutes);
 
 
 // -------- 404 Handler --------
